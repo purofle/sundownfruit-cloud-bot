@@ -1,4 +1,6 @@
 pub mod command;
+pub mod database;
+pub mod manager;
 
 use anyhow::Result;
 use command::create_vm::set_create_vm_state;

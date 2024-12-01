@@ -7,7 +7,7 @@ use teloxide::{
     Bot,
 };
 
-use crate::{BotState, MyDialogue};
+use crate::{manager::service_quotas::ServiceQuotas, BotState, MyDialogue};
 
 pub fn set_create_vm_state(
     handler: Handler<'_, DependencyMap, Result<()>, DpHandlerDescription>,
@@ -23,6 +23,8 @@ async fn receive_name(bot: Bot, dialogue: MyDialogue, msg: Message) -> Result<()
             dialogue
                 .update(BotState::ReceiveCPUs { name: text.into() })
                 .await?;
+
+            let _service_quotas = ServiceQuotas::get_from_db(msg.chat.id.0).await;
 
             bot.send_message(
                 msg.chat.id,

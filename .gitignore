@@ -2,3 +2,7 @@
 
 .cargo
 .vscode
+
+.env
+
+*.db

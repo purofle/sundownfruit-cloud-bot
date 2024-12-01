@@ -28,13 +28,31 @@ pub enum BotState {
     DefaultState,
 
     ReceiveName,
-    ReceiveMemory,
-    ReceiveCPUs,
-    ReceiveDiskSize,
-    ReceiveImage,
-    ReceiveNetwork,
-
-    ReceivePortForwarding,
+    ReceiveCPUs {
+        name: String,
+    },
+    ReceiveMemory {
+        name: String,
+        cpus: u8,
+    },
+    ReceiveDiskSize {
+        name: String,
+        memory: u8,
+        cpus: u8,
+    },
+    ReceiveImage {
+        name: String,
+        memory: u8,
+        cpus: u8,
+        disk_size: u8,
+    },
+    ReceiveNetwork {
+        name: String,
+        memory: u8,
+        cpus: u8,
+        disk_size: u8,
+        image: String,
+    },
 }
 
 #[derive(BotCommands, Clone)]
@@ -94,7 +112,7 @@ async fn create(bot: Bot, dialogue: MyDialogue, msg: Message) -> Result<()> {
         .await?;
     bot.send_message(msg.chat.id, "What would you like to name your VM?")
         .await?;
-    dialogue.update(BotState::ReceiveCPUs).await?;
+    dialogue.update(BotState::ReceiveName).await?;
     Ok(())
 }
 
